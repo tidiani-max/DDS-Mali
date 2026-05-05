@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Diawara Digital & Software{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0a1628;--blue:#1e6bff;--cyan:#38bdf8;--gold:#c9a227;--light:#f8fafc;--text:#0f172a;--mid:#475569;--green:#22c55e;--orange:#f97316;--purple:#8b5cf6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;color:var(--text);overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:16px 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,22,40,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.07);}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-badge{width:38px;height:38px;background:#1a3a70;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:800;font-size:13px;color:white;}
+.logo-name{color:white;font-family:'Sora',sans-serif;font-weight:600;font-size:15px;}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{color:rgba(255,255,255,0.72);font-size:14px;font-weight:500;transition:color .2s;padding:4px 0;}
+.nav-links a:hover,.nav-links a.active{color:white;}
+.nav-links a.active{border-bottom:2px solid var(--cyan);}
+.nav-cta{background:var(--blue);color:white;border:none;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s;}
+.nav-cta:hover{opacity:.85;}
+
+/* MESSAGES */
+.messages-wrap{position:fixed;top:76px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;max-width:380px;}
+.msg{padding:14px 18px;border-radius:10px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,0.15);animation:slideIn .3s ease;}
+.msg.success{background:#dcfce7;color:#166534;border:1px solid #bbf7d0;}
+.msg.warning{background:#fef9c3;color:#854d0e;border:1px solid #fde047;}
+.msg.error{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px);}to{opacity:1;transform:translateX(0);}}
+
+/* FORMS */
+.form-input{width:100%;padding:12px 16px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;background:white;}
+.form-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(30,107,255,0.1);}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-weight:600;font-size:13px;margin-bottom:6px;color:var(--text);}
+.form-errors{color:#dc2626;font-size:12px;margin-top:4px;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;font-weight:600;font-size:15px;cursor:pointer;border:none;transition:transform .2s,box-shadow .2s;text-decoration:none;}
+.btn-primary{background:var(--blue);color:white;box-shadow:0 4px 16px rgba(30,107,255,0.35);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(30,107,255,0.45);}
+.btn-secondary{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);color:white;}
+.btn-secondary:hover{background:rgba(255,255,255,0.18);}
+.btn-outline{background:white;border:1.5px solid var(--blue);color:var(--blue);}
+.btn-outline:hover{background:var(--blue);color:white;}
+.btn-purple{background:var(--purple);color:white;box-shadow:0 4px 16px rgba(139,92,246,0.35);}
+.btn-purple:hover{transform:translateY(-2px);}
+.btn-green{background:var(--green);color:white;}
+
+/* BADGE */
+.sec-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 16px;border-radius:100px;font-size:13px;font-weight:500;margin-bottom:12px;}
+.badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:100px;white-space:nowrap;}
+.b-dev{background:rgba(251,191,36,.12);color:#d97706;border:1px solid rgba(251,191,36,.3);}
+.b-live{background:rgba(34,197,94,.1);color:#16a34a;border:1px solid rgba(34,197,94,.25);}
+.b-done{background:rgba(249,115,22,.1);color:#ea580c;border:1px solid rgba(249,115,22,.25);}
+.b-upcoming{background:rgba(56,189,248,.1);color:#0284c7;}
+
+/* SECTION */
+.section{padding:96px 60px;}
+.section-inner{max-width:1280px;margin:0 auto;}
+.sec-title{font-family:'Sora',sans-serif;font-size:clamp(28px,3.5vw,48px);font-weight:800;line-height:1.1;margin-bottom:12px;}
+.sec-sub{color:var(--mid);font-size:16px;line-height:1.6;max-width:580px;margin:0 auto;}
+.tc{text-align:center;}
+
+/* CARD */
+.card{background:white;border-radius:20px;padding:30px;box-shadow:0 2px 16px rgba(0,0,0,.06);transition:transform .3s,box-shadow .3s;}
+.card:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(0,0,0,.12);}
+.card-icon{width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;}
+
+/* PAGE HERO */
+.page-hero{padding:140px 60px 80px;background:linear-gradient(140deg,#040c1e 0%,#0a1f4a 45%,#0c2768 70%,#180f58 100%);color:white;position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 50% at 70% 50%,rgba(56,189,248,.08) 0%,transparent 65%);}
+.page-hero-inner{max-width:1280px;margin:0 auto;position:relative;z-index:1;}
+.page-hero h1{font-family:'Sora',sans-serif;font-size:clamp(32px,4vw,58px);font-weight:800;line-height:1.1;margin-bottom:16px;}
+.page-hero p{font-size:17px;color:rgba(255,255,255,.68);max-width:560px;line-height:1.7;}
+
+/* FOOTER */
+footer{background:#080b14;padding:40px 60px;display:flex;justify-content:space-between;align-items:center;color:rgba(255,255,255,.45);font-size:13px;}
+.foot-logo{display:flex;align-items:center;gap:10px;}
+.foot-txt strong{display:block;color:white;font-weight:600;font-size:14px;}
+.foot-txt span{font-size:12px;color:rgba(255,255,255,.38);}
+.foot-links{display:flex;gap:24px;}
+.foot-links a{color:rgba(255,255,255,.5);font-size:13px;transition:color .2s;}
+.foot-links a:hover{color:white;}
+.foot-r{text-align:right;}
+
+@media(max-width:900px){
+  nav{padding:14px 20px;}
+  .nav-links{display:none;}
+  .section{padding:64px 20px;}
+  .page-hero{padding:110px 20px 60px;}
+  footer{flex-direction:column;gap:18px;text-align:center;padding:32px 20px;}
+  .foot-r{text-align:center;}
+  .foot-links{flex-wrap:wrap;justify-content:center;}
+}
+</style>
+{% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<nav>
+  <a href="{% url 'core:home' %}" class="logo">
+    <div class="logo-badge">DDS</div>
+    <span class="logo-name">Diawara Digital & Software</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="{% url 'core:home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>Home</a></li>
+    <li><a href="{% url 'scholarships:list' %}" {% if 'scholarships' in request.path %}class="active"{% endif %}>Scholarships</a></li>
+    <li><a href="{% url 'webinars:list' %}" {% if 'webinars' in request.path %}class="active"{% endif %}>Webinars</a></li>
+    <li><a href="{% url 'contact:contact' %}" {% if 'contact' in request.path %}class="active"{% endif %}>Contact</a></li>
+  </ul>
+  <a href="{% url 'contact:contact' %}" class="nav-cta">Start a Project</a>
+</nav>
+
+{% if messages %}
+<div class="messages-wrap">
+  {% for msg in messages %}
+  <div class="msg {{ msg.tags }}">{{ msg }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+<footer>
+  <div class="foot-logo">
+    <div class="logo-badge">DDS</div>
+    <div class="foot-txt">
+      <strong>Diawara Digital & Software</strong>
+      <span>Building Africa's Digital Future</span>
+    </div>
+  </div>
+  <div class="foot-links">
+    <a href="{% url 'core:home' %}">Home</a>
+    <a href="{% url 'scholarships:list' %}">Scholarships</a>
+    <a href="{% url 'webinars:list' %}">Webinars</a>
+    <a href="{% url 'contact:contact' %}">Contact</a>
+  </div>
+  <div class="foot-r">
+    <div>© 2026 DDS-Mali. All rights reserved.</div>
+    <div style="margin-top:4px">Empowering Africa • Southeast Asia</div>
+  </div>
+</footer>
+
+<script>
+// Auto-hide messages
+setTimeout(()=>{document.querySelectorAll('.msg').forEach(m=>m.style.opacity='0')},4000);
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

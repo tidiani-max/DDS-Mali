@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block title %}Webinars – DDS Mali{% endblock %}
+{% block extra_css %}
+<style>
+.webinar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;}
+.webinar-card{background:white;border-radius:20px;padding:28px;box-shadow:0 2px 14px rgba(0,0,0,.06);transition:transform .3s,box-shadow .3s;border-top:4px solid #0ea5e9;}
+.webinar-card:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(0,0,0,.12);}
+.webinar-card.past{border-top-color:#94a3b8;opacity:.85;}
+.wc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;}
+.wc-title{font-family:'Sora',sans-serif;font-weight:700;font-size:17px;line-height:1.3;}
+.wc-cat{font-size:12px;font-weight:600;padding:4px 12px;border-radius:100px;background:#f0f9ff;color:#0284c7;margin-bottom:12px;display:inline-block;}
+.wc-speaker{display:flex;align-items:center;gap:10px;background:#f8fafc;border-radius:12px;padding:12px 14px;margin-bottom:14px;}
+.spk-av{width:36px;height:36px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:16px;color:white;flex-shrink:0;}
+.spk-name{font-weight:600;font-size:14px;}
+.spk-role{font-size:12px;color:var(--mid);}
+.wc-date{font-size:13px;color:var(--mid);margin-bottom:16px;}
+.seats-bar{background:#f1f5f9;border-radius:100px;height:6px;margin-bottom:6px;}
+.seats-fill{background:var(--blue);border-radius:100px;height:6px;}
+.seats-txt{font-size:12px;color:var(--mid);margin-bottom:14px;}
+.section-divider{display:flex;align-items:center;gap:16px;margin:48px 0 32px;}
+.section-divider h3{font-family:'Sora',sans-serif;font-weight:700;font-size:22px;white-space:nowrap;}
+.section-divider hr{flex:1;border:none;border-top:1.5px solid #e2e8f0;}
+.empty-state{text-align:center;padding:60px 20px;color:var(--mid);}
+.empty-state div{font-size:48px;margin-bottom:12px;}
+</style>
+{% endblock %}
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="sec-badge" style="background:rgba(56,189,248,.15);color:#7dd3fc;border:1px solid rgba(56,189,248,.3)">📹 The Impact Hub</div>
+    <h1>Webinars & <span style="color:#7dd3fc">Workshops</span></h1>
+    <p>Connect with industry professionals, get career advice, and learn from those who've made it to their dream companies.</p>
+  </div>
+</div>
+
+<section class="section" style="background:#f8fafc;">
+  <div class="section-inner">
+
+    <div class="section-divider">
+      <h3>🔴 Upcoming Webinars</h3><hr>
+    </div>
+
+    {% if upcoming %}
+    <div class="webinar-grid">
+      {% for w in upcoming %}
+      <div class="webinar-card">
+        <div class="wc-top">
+          <div class="wc-title">{{ w.title }}</div>
+          <span class="badge b-upcoming">Upcoming</span>
+        </div>
+        {% if w.image %}<img src="{{ w.image.url }}" style="width:100%;height:140px;object-fit:cover;border-radius:12px;margin-bottom:14px;" alt="{{ w.title }}"/>{% endif %}
+        <div class="wc-cat">{{ w.get_category_display }}</div>
+        <div class="wc-speaker">
+          <div class="spk-av">⭐</div>
+          <div><div class="spk-name">{{ w.speaker_name }}</div><div class="spk-role">{{ w.speaker_role }}{% if w.speaker_company %} at {{ w.speaker_company }}{% endif %}</div></div>
+        </div>
+        <div class="wc-date">📅 {{ w.date|date:"F d, Y" }} at {{ w.date|time:"H:i" }} GMT</div>
+        {% if w.max_seats %}
+        {% widthratio w.seats_taken w.max_seats 100 as pct %}
+        <div class="seats-bar"><div class="seats-fill" style="width:{{ pct }}%"></div></div>
+        <div class="seats-txt">{{ w.seats_left }} seats remaining</div>
+        {% endif %}
+        <a href="{% url 'webinars:detail' w.pk %}" class="btn btn-primary" style="width:100%;justify-content:center;">Register Now →</a>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <div>📅</div>
+      <h3 style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:8px;">No upcoming webinars</h3>
+      <p>Check back soon — new sessions are added regularly.</p>
+      <a href="{% url 'contact:contact' %}" class="btn btn-primary" style="margin-top:16px;">Get Notified</a>
+    </div>
+    {% endif %}
+
+    {% if past %}
+    <div class="section-divider">
+      <h3>📼 Past Webinars</h3><hr>
+    </div>
+    <div class="webinar-grid">
+      {% for w in past %}
+      <div class="webinar-card past">
+        <div class="wc-top">
+          <div class="wc-title">{{ w.title }}</div>
+          <span class="badge" style="background:#f1f5f9;color:#64748b;">Past</span>
+        </div>
+        {% if w.image %}<img src="{{ w.image.url }}" style="width:100%;height:140px;object-fit:cover;border-radius:12px;margin-bottom:14px;" alt="{{ w.title }}"/>{% endif %}
+        <div class="wc-cat">{{ w.get_category_display }}</div>
+        <div class="wc-speaker">
+          <div class="spk-av" style="background:#64748b;">⭐</div>
+          <div><div class="spk-name">{{ w.speaker_name }}</div><div class="spk-role">{{ w.speaker_role }}</div></div>
+        </div>
+        <div class="wc-date">📅 {{ w.date|date:"F d, Y" }}</div>
+        {% if w.recording_link %}
+        <a href="{{ w.recording_link }}" target="_blank" class="btn btn-outline" style="width:100%;justify-content:center;">▶ Watch Recording</a>
+        {% else %}
+        <a href="{% url 'webinars:detail' w.pk %}" class="btn" style="width:100%;justify-content:center;background:#f1f5f9;color:#64748b;">View Details</a>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+{% endblock %}

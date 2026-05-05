@@ -1,0 +1,82 @@
+[
+  {
+    "model": "scholarships.scholarship",
+    "pk": 1,
+    "fields": {
+      "title": "KNB Scholarship – Indonesian Government",
+      "country": "indonesia",
+      "level": "master",
+      "university": "Multiple Universities in Indonesia",
+      "description": "The Kemitraan Negara Berkembang (KNB) Scholarship is a prestigious Indonesian Government scholarship for students from developing countries to pursue Master degree programs at top Indonesian universities.",
+      "benefits": "Full tuition fee coverage\nMonthly living allowance (IDR 2,500,000)\nAccommodation support\nReturn airfare\nHealth insurance\nIndonesian language course",
+      "requirements": "Bachelor degree with minimum GPA 3.0\nAge maximum 35 years\nTOEFL score minimum 500 or IELTS 5.5\nNot currently receiving other scholarship\nLetter of motivation\nRecommendation letters x2",
+      "deadline": "2026-07-31",
+      "link": "https://knb.kemdikbud.go.id",
+      "is_active": true,
+      "is_featured": true,
+      "created_at": "2026-01-01T00:00:00Z",
+      "image": null,
+      "whatsapp_contact": ""
+    }
+  },
+  {
+    "model": "scholarships.scholarship",
+    "pk": 2,
+    "fields": {
+      "title": "Universitas Brawijaya Scholarship",
+      "country": "indonesia",
+      "level": "bachelor",
+      "university": "Universitas Brawijaya – Malang, Indonesia",
+      "description": "Full scholarship for international students from West Africa and other developing nations to pursue undergraduate studies at one of Indonesia's leading universities located in Malang, East Java.",
+      "benefits": "Full tuition waiver\nMonthly stipend IDR 1,500,000\nDormitory accommodation\nAcademic mentorship\nCultural exchange program",
+      "requirements": "High school diploma with excellent grades\nAge 17-25 years\nBasic English proficiency\nMotivation letter\nPassport copy\nHealth certificate",
+      "deadline": "2026-06-15",
+      "link": "",
+      "is_active": true,
+      "is_featured": true,
+      "created_at": "2026-01-01T00:00:00Z",
+      "image": null,
+      "whatsapp_contact": ""
+    }
+  },
+  {
+    "model": "scholarships.scholarship",
+    "pk": 3,
+    "fields": {
+      "title": "UMM International Student Grant",
+      "country": "indonesia",
+      "level": "master",
+      "university": "Universitas Muhammadiyah Malang",
+      "description": "Partial to full scholarship program for international students, especially from Muslim-majority countries in Africa, to study at UMM in Malang, Indonesia — a university with a strong African student community.",
+      "benefits": "50-100% tuition discount\nHousing assistance\nAcademic support\nIslamic activities & community",
+      "requirements": "Bachelor degree\nMinimum GPA 3.0\nHealth certificate\nMotivation letter in English\nProof of financial need",
+      "deadline": "2026-08-30",
+      "link": "",
+      "is_active": true,
+      "is_featured": false,
+      "created_at": "2026-01-01T00:00:00Z",
+      "image": null,
+      "whatsapp_contact": ""
+    }
+  },
+  {
+    "model": "scholarships.scholarship",
+    "pk": 4,
+    "fields": {
+      "title": "Universitas Negeri Malang – DIKE Program",
+      "country": "indonesia",
+      "level": "bachelor",
+      "university": "Universitas Negeri Malang",
+      "description": "The Diversity and International Knowledge Exchange program offers places for talented students from West Africa to study education, science, and technology at UM in Malang.",
+      "benefits": "Tuition fee support\nMentorship from local students\nCultural immersion program\nCertificate of achievement",
+      "requirements": "Secondary school certificate\nGood academic record\nEnglish or Indonesian basic proficiency\nInterview",
+      "deadline": "2026-05-31",
+      "link": "",
+      "is_active": true,
+      "is_featured": false,
+      "created_at": "2026-01-01T00:00:00Z",
+      "image": null,
+      "whatsapp_contact": ""
+    }
+  }
+]

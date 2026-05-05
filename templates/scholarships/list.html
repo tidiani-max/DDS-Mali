@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}Scholarships – DDS Mali{% endblock %}
+{% block extra_css %}
+<style>
+.filter-bar{background:white;border-radius:16px;padding:20px 28px;box-shadow:0 2px 12px rgba(0,0,0,.06);display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:40px;}
+.filter-bar select{padding:10px 16px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:14px;outline:none;cursor:pointer;background:white;}
+.filter-bar select:focus{border-color:var(--blue);}
+.filter-btn{padding:10px 22px;background:var(--blue);color:white;border:none;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer;}
+.sch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;}
+.sch-card{background:white;border-radius:20px;padding:28px;box-shadow:0 2px 14px rgba(0,0,0,.06);transition:transform .3s,box-shadow .3s;border-top:4px solid #8b5cf6;}
+.sch-card:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(0,0,0,.12);}
+.sch-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;}
+.sch-title{font-family:'Sora',sans-serif;font-weight:700;font-size:18px;line-height:1.3;}
+.sch-uni{color:var(--mid);font-size:13px;margin-bottom:12px;}
+.sch-desc{color:var(--mid);font-size:14px;line-height:1.6;margin-bottom:16px;}
+.sch-meta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+.sch-tag{font-size:12px;font-weight:600;padding:4px 12px;border-radius:100px;background:#f1f5f9;color:var(--mid);}
+.sch-deadline{font-size:13px;color:#dc2626;font-weight:600;margin-bottom:16px;}
+.featured-banner{background:linear-gradient(135deg,#7c3aed,#ec4899);border-radius:20px;padding:36px;color:white;margin-bottom:48px;}
+.featured-banner h3{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;margin-bottom:8px;}
+.featured-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:20px;}
+.f-card{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:20px;}
+.f-card-title{font-weight:700;font-size:15px;margin-bottom:6px;}
+.f-card-sub{font-size:13px;opacity:.8;margin-bottom:12px;}
+.empty-state{text-align:center;padding:80px 20px;color:var(--mid);}
+.empty-state div{font-size:56px;margin-bottom:16px;}
+</style>
+{% endblock %}
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="sec-badge" style="background:rgba(139,92,246,.2);color:#c4b5fd;border:1px solid rgba(139,92,246,.3)">🎓 Scholarship Bridge</div>
+    <h1>Scholarships & <span style="color:#c4b5fd">Opportunities</span></h1>
+    <p>Discover funded opportunities to study in Indonesia and Southeast Asia. We guide you every step of the way.</p>
+  </div>
+</div>
+
+<section class="section" style="background:#f8fafc;">
+  <div class="section-inner">
+
+    {% if featured %}
+    <div class="featured-banner">
+      <h3>⭐ Featured Scholarships</h3>
+      <p style="opacity:.85;font-size:14px;">Don't miss these highlighted opportunities</p>
+      <div class="featured-grid">
+        {% for s in featured %}
+        <div class="f-card">
+          <div class="f-card-title">{{ s.title }}</div>
+          <div class="f-card-sub">{{ s.university }} • {{ s.get_country_display }}</div>
+          <a href="{% url 'scholarships:detail' s.pk %}" class="btn btn-outline" style="font-size:13px;padding:8px 18px;background:white;color:#7c3aed;">View Details →</a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <form method="get" class="filter-bar">
+      <span style="font-weight:600;font-size:14px;">🔍 Filter:</span>
+      <select name="country">
+        <option value="">All Countries</option>
+        {% for val,label in country_choices %}
+        <option value="{{ val }}" {% if country == val %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+      <select name="level">
+        <option value="">All Levels</option>
+        {% for val,label in level_choices %}
+        <option value="{{ val }}" {% if level == val %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="filter-btn">Apply Filter</button>
+      <a href="{% url 'scholarships:list' %}" style="font-size:14px;color:var(--mid);">Clear</a>
+    </form>
+
+    {% if scholarships %}
+    <div class="sch-grid">
+      {% for s in scholarships %}
+      <div class="sch-card">
+        {% if s.image %}<img src="{{ s.image.url }}" style="width:100%;height:140px;object-fit:cover;border-radius:14px;margin-bottom:16px;" alt="{{ s.title }}"/>{% endif %}
+        <div class="sch-card-top">
+          <div class="sch-title">{{ s.title }}</div>
+          <span class="sch-tag">{{ s.get_level_display }}</span>
+        </div>
+        <div class="sch-uni">🏛️ {{ s.university }}</div>
+        <p class="sch-desc">{{ s.description|truncatewords:30 }}</p>
+        <div class="sch-meta">
+          <span class="sch-tag">🌏 {{ s.get_country_display }}</span>
+          {% if s.is_free %}<span class="sch-tag" style="background:#dcfce7;color:#16a34a;">✓ Free</span>{% endif %}
+        </div>
+        <div class="sch-deadline">⏰ Deadline: {{ s.deadline|date:"M d, Y" }}</div>
+        <a href="{% url 'scholarships:detail' s.pk %}" class="btn btn-purple" style="width:100%;justify-content:center;">Apply Now →</a>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <div>🎓</div>
+      <h3 style="font-family:'Sora',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;">No scholarships found</h3>
+      <p>Try adjusting your filters or check back soon for new opportunities.</p>
+      <br><a href="{% url 'contact:contact' %}" class="btn btn-purple" style="margin-top:16px;">Get Notified</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

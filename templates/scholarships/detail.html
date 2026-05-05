@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block title %}{{ scholarship.title }} – DDS Mali{% endblock %}
+{% block extra_css %}
+<style>
+.detail-grid{display:grid;grid-template-columns:1fr 380px;gap:40px;align-items:start;margin-top:40px;}
+.detail-main{background:white;border-radius:20px;padding:36px;box-shadow:0 2px 14px rgba(0,0,0,.06);}
+.detail-sidebar{position:sticky;top:90px;}
+.apply-card{background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;border-radius:20px;padding:28px;margin-bottom:20px;}
+.apply-card h3{font-family:'Sora',sans-serif;font-weight:700;font-size:18px;margin-bottom:6px;}
+.apply-card p{font-size:13px;opacity:.82;margin-bottom:20px;}
+.info-card{background:white;border-radius:16px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+.info-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f1f5f9;font-size:14px;}
+.info-row:last-child{border-bottom:none;}
+.info-label{color:var(--mid);font-weight:500;}
+.info-val{font-weight:600;}
+.section-heading{font-family:'Sora',sans-serif;font-weight:700;font-size:17px;margin:24px 0 12px;padding-bottom:8px;border-bottom:2px solid #f1f5f9;}
+.benefit-item,.req-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;font-size:14px;color:var(--mid);}
+.benefit-item::before{content:'✓';color:#16a34a;font-weight:700;flex-shrink:0;}
+.req-item::before{content:'→';color:var(--blue);font-weight:700;flex-shrink:0;}
+.form-card{background:white;border-radius:20px;padding:32px;box-shadow:0 2px 14px rgba(0,0,0,.06);margin-top:20px;}
+.form-card h3{font-family:'Sora',sans-serif;font-weight:700;font-size:18px;margin-bottom:6px;}
+.form-card p{color:var(--mid);font-size:14px;margin-bottom:24px;}
+@media(max-width:900px){.detail-grid{grid-template-columns:1fr;}.detail-sidebar{position:static;}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div style="margin-bottom:12px"><a href="{% url 'scholarships:list' %}" style="color:rgba(255,255,255,.6);font-size:14px;">← Back to Scholarships</a></div>
+    <div class="sec-badge" style="background:rgba(139,92,246,.2);color:#c4b5fd;border:1px solid rgba(139,92,246,.3)">{{ scholarship.get_level_display }} • {{ scholarship.get_country_display }}</div>
+    <h1>{{ scholarship.title }}</h1>
+    <p>{{ scholarship.university }}</p>
+  </div>
+</div>
+
+<section class="section" style="background:#f8fafc;">
+  <div class="section-inner">
+    <div class="detail-grid">
+      <div>
+        <div class="detail-main">
+          <h2 style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:12px;">About this Scholarship</h2>
+          <p style="color:var(--mid);font-size:15px;line-height:1.7;">{{ scholarship.description }}</p>
+
+          {% if scholarship.benefits_list %}
+          <div class="section-heading">🎁 Benefits & Coverage</div>
+          {% for b in scholarship.benefits_list %}
+          <div class="benefit-item">{{ b }}</div>
+          {% endfor %}
+          {% endif %}
+
+          {% if scholarship.requirements_list %}
+          <div class="section-heading">📋 Requirements</div>
+          {% for r in scholarship.requirements_list %}
+          <div class="req-item">{{ r }}</div>
+          {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="form-card">
+          <h3>Apply for this Scholarship</h3>
+          <p>Fill in the form below and we will review your application and get in touch.</p>
+          {% if messages %}{% for m in messages %}<div class="msg {{ m.tags }}" style="margin-bottom:16px;padding:12px 16px;border-radius:10px;font-size:14px;{% if 'success' in m.tags %}background:#dcfce7;color:#166534;border:1px solid #bbf7d0;{% endif %}">{{ m }}</div>{% endfor %}{% endif %}
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+              <label>{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+              {{ field }}
+              {% if field.errors %}<div class="form-errors">{{ field.errors.0 }}</div>{% endif %}
+            </div>
+            {% endfor %}
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#166534;">
+              📱 <strong>WhatsApp confirmation</strong> will be sent to your number after submission.
+            </div>
+            <button type="submit" class="btn btn-purple" style="width:100%;justify-content:center;margin-top:8px;">Submit Application 🚀</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="detail-sidebar">
+        <div class="apply-card">
+          <h3>⏰ Apply Before</h3>
+          <p style="font-size:22px;font-weight:800;font-family:'Sora',sans-serif;margin:0 0 6px;opacity:1;">{{ scholarship.deadline|date:"M d, Y" }}</p>
+          <p>Don't miss this opportunity! Apply early to improve your chances.</p>
+          <a href="#apply" class="btn" style="background:white;color:#7c3aed;width:100%;justify-content:center;">Apply Now →</a>
+        </div>
+        <div class="info-card">
+          <div class="info-row"><span class="info-label">Country</span><span class="info-val">🌏 {{ scholarship.get_country_display }}</span></div>
+          <div class="info-row"><span class="info-label">Level</span><span class="info-val">{{ scholarship.get_level_display }}</span></div>
+          <div class="info-row"><span class="info-label">University</span><span class="info-val">{{ scholarship.university }}</span></div>
+          <div class="info-row"><span class="info-label">Cost</span><span class="info-val" style="color:#16a34a;">{% if scholarship.is_free %}✓ Free{% else %}Varies{% endif %}</span></div>
+          <div class="info-row"><span class="info-label">Deadline</span><span class="info-val" style="color:#dc2626;">{{ scholarship.deadline|date:"M d, Y" }}</span></div>
+          {% if scholarship.link %}
+          <div style="margin-top:12px;">
+            <a href="{{ scholarship.link }}" target="_blank" class="btn btn-outline" style="width:100%;justify-content:center;">Official Website ↗</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

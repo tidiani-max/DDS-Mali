@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Certificate – {{ registration.full_name }} – DDS Mali{% endblock %}
+{% block extra_css %}
+<style>
+.cert-page{min-height:100vh;background:linear-gradient(140deg,#040c1e 0%,#0a1f4a 50%,#180f58 100%);padding:120px 40px 60px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+.cert-card{background:linear-gradient(135deg,#0d2251 0%,#0a1628 100%);border:2px solid #c9a227;border-radius:24px;padding:60px;max-width:800px;width:100%;text-align:center;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+.cert-card::before{content:'';position:absolute;inset:8px;border:1px solid rgba(201,162,39,0.3);border-radius:18px;pointer-events:none;}
+.cert-logo{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;color:#c9a227;margin-bottom:6px;}
+.cert-tagline{font-size:11px;color:#38bdf8;margin-bottom:28px;}
+.cert-hr{border:none;border-top:1px solid #c9a227;margin:0 40px 28px;}
+.cert-of{font-size:11px;letter-spacing:3px;color:rgba(255,255,255,.6);text-transform:uppercase;margin-bottom:8px;}
+.cert-title-big{font-family:'Sora',sans-serif;font-size:32px;font-weight:800;color:#c9a227;margin-bottom:24px;}
+.cert-this{font-size:15px;color:rgba(255,255,255,.7);margin-bottom:10px;}
+.cert-name{font-family:'Sora',sans-serif;font-size:36px;font-weight:800;color:#38bdf8;margin-bottom:6px;}
+.cert-name-under{height:2px;background:#38bdf8;max-width:400px;margin:0 auto 24px;}
+.cert-completed{font-size:15px;color:rgba(255,255,255,.7);margin-bottom:12px;}
+.cert-webinar{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:#c9a227;margin-bottom:16px;}
+.cert-date{font-size:14px;color:rgba(255,255,255,.65);margin-bottom:6px;}
+.cert-speaker{font-size:13px;color:rgba(255,255,255,.5);font-style:italic;margin-bottom:40px;}
+.cert-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:40px;padding-top:28px;border-top:1px solid rgba(201,162,39,.3);}
+.cert-sig-name{font-weight:700;font-size:14px;color:#c9a227;margin-bottom:2px;}
+.cert-sig-role{font-size:12px;color:rgba(255,255,255,.5);}
+.cert-sig-line{width:160px;height:1px;background:#c9a227;margin-bottom:8px;}
+.cert-id{font-size:11px;color:rgba(255,255,255,.35);}
+.cert-verify{font-size:11px;color:rgba(56,189,248,.6);}
+.cert-actions{margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.valid-badge{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);border-radius:100px;padding:6px 18px;display:inline-flex;align-items:center;gap:8px;color:#4ade80;font-size:13px;font-weight:600;margin-bottom:24px;}
+</style>
+{% endblock %}
+{% block content %}
+<div class="cert-page">
+  <div class="valid-badge">✅ Valid Certificate — Verified by DDS Mali</div>
+  <div class="cert-card">
+    <div class="cert-logo">DIAWARA DIGITAL & SOFTWARE</div>
+    <div class="cert-tagline">Empowering Africa & Southeast Asia</div>
+    <hr class="cert-hr">
+    <div class="cert-of">CERTIFICATE OF</div>
+    <div class="cert-title-big">COMPLETION</div>
+    <div class="cert-this">This is to certify that</div>
+    <div class="cert-name">{{ registration.full_name }}</div>
+    <div class="cert-name-under"></div>
+    <div class="cert-completed">has successfully completed the online webinar</div>
+    <div class="cert-webinar">"{{ registration.webinar.title }}"</div>
+    <div class="cert-date">📅 {{ registration.webinar.date|date:"F d, Y" }}</div>
+    <div class="cert-speaker">🎤 {{ registration.webinar.speaker_name }} – {{ registration.webinar.speaker_role }}{% if registration.webinar.speaker_company %} at {{ registration.webinar.speaker_company }}{% endif %}</div>
+    <div class="cert-bottom">
+      <div>
+        <div class="cert-sig-line"></div>
+        <div class="cert-sig-name">Cheick Tidiani Diawara</div>
+        <div class="cert-sig-role">Founder, DDS Mali</div>
+      </div>
+      <div style="text-align:center;">
+        <div class="cert-id">ID: {{ registration.certificate_code }}</div>
+        <div class="cert-verify">dds-mali.com/verify</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="cert-sig-line"></div>
+        <div class="cert-sig-name">{{ registration.webinar.date|date:"Y" }}</div>
+        <div class="cert-sig-role">Year of Completion</div>
+      </div>
+    </div>
+  </div>
+  <div class="cert-actions">
+    <a href="?download=1" class="btn btn-primary">📥 Download PDF Certificate</a>
+    <a href="/webinars/certificate/{{ registration.certificate_code }}/pdf/" target="_blank" class="btn btn-secondary" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);">👁️ View PDF</a>
+    <a href="{% url 'webinars:list' %}" class="btn btn-outline" style="color:white;border-color:rgba(255,255,255,.3);">← Back to Webinars</a>
+  </div>
+  <p style="color:rgba(255,255,255,.4);font-size:12px;margin-top:16px;text-align:center;">Share this page to verify the certificate authenticity</p>
+</div>
+{% endblock %}

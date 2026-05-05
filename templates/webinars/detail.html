@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% block title %}{{ webinar.title }} – DDS Mali{% endblock %}
+{% block extra_css %}
+<style>
+.detail-grid{display:grid;grid-template-columns:1fr 360px;gap:40px;align-items:start;margin-top:40px;}
+.detail-main{background:white;border-radius:20px;padding:36px;box-shadow:0 2px 14px rgba(0,0,0,.06);}
+.detail-sidebar{position:sticky;top:90px;display:flex;flex-direction:column;gap:18px;}
+.reg-card{background:linear-gradient(135deg,#0ea5e9,#6366f1);color:white;border-radius:20px;padding:28px;}
+.reg-card h3{font-family:'Sora',sans-serif;font-weight:700;font-size:18px;margin-bottom:8px;}
+.info-card{background:white;border-radius:16px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+.info-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f1f5f9;font-size:14px;}
+.info-row:last-child{border-bottom:none;}
+.info-label{color:var(--mid);font-weight:500;}
+.info-val{font-weight:600;}
+.speaker-card{background:#f8fafc;border-radius:16px;padding:20px;display:flex;gap:16px;align-items:center;margin-bottom:24px;}
+.spk-big-av{width:56px;height:56px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:26px;color:white;flex-shrink:0;overflow:hidden;}
+.spk-big-av img{width:100%;height:100%;object-fit:cover;}
+.seats-bar{background:#e2e8f0;border-radius:100px;height:8px;margin:6px 0;}
+.seats-fill{background:var(--blue);border-radius:100px;height:8px;}
+.webinar-banner{width:100%;border-radius:16px;object-fit:cover;max-height:300px;margin-bottom:24px;}
+.wa-badge{background:#25d366;color:white;border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;}
+@media(max-width:900px){.detail-grid{grid-template-columns:1fr;}.detail-sidebar{position:static;}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div style="margin-bottom:12px"><a href="{% url 'webinars:list' %}" style="color:rgba(255,255,255,.6);font-size:14px;">← Back to Webinars</a></div>
+    <div class="sec-badge" style="background:rgba(56,189,248,.15);color:#7dd3fc;border:1px solid rgba(56,189,248,.3)">{{ webinar.get_category_display }}</div>
+    <h1>{{ webinar.title }}</h1>
+    <p>{{ webinar.date|date:"F d, Y" }} at {{ webinar.date|time:"H:i" }} GMT • {{ webinar.duration_minutes }} min</p>
+  </div>
+</div>
+<section class="section" style="background:#f8fafc;">
+  <div class="section-inner">
+    <div class="detail-grid">
+      <div>
+        <div class="detail-main">
+          {% if webinar.image %}
+          <img src="{{ webinar.image.url }}" class="webinar-banner" alt="{{ webinar.title }}"/>
+          {% endif %}
+          <div class="speaker-card">
+            <div class="spk-big-av">
+              {% if webinar.speaker_photo %}<img src="{{ webinar.speaker_photo.url }}" alt="{{ webinar.speaker_name }}"/>
+              {% else %}⭐{% endif %}
+            </div>
+            <div>
+              <div style="font-weight:700;font-size:16px;margin-bottom:3px;">{{ webinar.speaker_name }}</div>
+              <div style="color:var(--mid);font-size:14px;">{{ webinar.speaker_role }}{% if webinar.speaker_company %} at <strong>{{ webinar.speaker_company }}</strong>{% endif %}</div>
+            </div>
+          </div>
+          <h2 style="font-family:'Sora',sans-serif;font-weight:700;font-size:19px;margin-bottom:12px;">About this Webinar</h2>
+          <p style="color:var(--mid);font-size:15px;line-height:1.7;margin-bottom:24px;">{{ webinar.description }}</p>
+          {% if webinar.whatsapp_group %}
+          <div class="wa-badge">
+            <span style="font-size:20px">💬</span>
+            <div>
+              <div>Join the WhatsApp Community Group</div>
+              <a href="{{ webinar.whatsapp_group }}" target="_blank" style="color:rgba(255,255,255,.85);font-size:12px;">{{ webinar.whatsapp_group }}</a>
+            </div>
+          </div>
+          {% endif %}
+          {% if webinar.status == 'past' and webinar.recording_link %}
+          <div style="margin-top:20px;background:#f0f9ff;border-radius:14px;padding:20px;border:1px solid #bae6fd;">
+            <div style="font-weight:700;font-size:15px;margin-bottom:8px;">▶ Recording Available</div>
+            <a href="{{ webinar.recording_link }}" target="_blank" class="btn btn-primary">Watch Recording →</a>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="detail-main" style="margin-top:24px;" id="register">
+          <h3 style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;margin-bottom:6px;">
+            {% if webinar.status == 'upcoming' %}Register for this Webinar{% else %}Webinar Ended{% endif %}
+          </h3>
+          <p style="color:var(--mid);font-size:14px;margin-bottom:20px;">
+            {% if webinar.status == 'upcoming' %}Fill in your WhatsApp number — you'll receive the meeting link directly on WhatsApp!{% endif %}
+          </p>
+          {% if messages %}{% for m in messages %}
+          <div style="padding:12px 16px;border-radius:10px;font-size:14px;margin-bottom:16px;font-weight:500;
+            {% if 'success' in m.tags %}background:#dcfce7;color:#166534;border:1px solid #bbf7d0;
+            {% elif 'warning' in m.tags %}background:#fef9c3;color:#854d0e;border:1px solid #fde047;
+            {% elif 'error' in m.tags %}background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;{% endif %}">{{ m }}</div>
+          {% endfor %}{% endif %}
+          {% if webinar.status == 'upcoming' %}
+          <form method="post">
+            {% csrf_token %}
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div class="form-group">
+                <label>Full Name *</label>{{ form.full_name }}
+                {% if form.full_name.errors %}<div class="form-errors">{{ form.full_name.errors.0 }}</div>{% endif %}
+              </div>
+              <div class="form-group">
+                <label>WhatsApp Number * <span style="font-size:11px;color:var(--mid)">(with country code)</span></label>
+                {{ form.whatsapp_number }}
+                {% if form.whatsapp_number.errors %}<div class="form-errors">{{ form.whatsapp_number.errors.0 }}</div>{% endif %}
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div class="form-group">
+                <label>Email *</label>{{ form.email }}
+                {% if form.email.errors %}<div class="form-errors">{{ form.email.errors.0 }}</div>{% endif %}
+              </div>
+              <div class="form-group">
+                <label>Country</label>{{ form.country }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Profession</label>{{ form.profession }}
+            </div>
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#166534;">
+              📱 <strong>WhatsApp confirmation</strong> with the Zoom link will be sent to your number after registration.
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Reserve My Spot 🎯</button>
+          </form>
+          {% else %}
+          <div style="text-align:center;padding:24px;color:var(--mid);">
+            <div style="font-size:36px;margin-bottom:10px;">📼</div>
+            <p>This webinar has ended. {% if webinar.recording_link %}Watch the recording above.{% else %}Check back for the recording.{% endif %}</p>
+            {% if webinar.certificate_enabled %}
+            <p style="margin-top:12px;font-size:13px;">Participants can access their certificate from the link sent via WhatsApp.</p>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="detail-sidebar">
+        <div class="reg-card">
+          <h3>{% if webinar.is_free %}🆓 FREE Webinar{% else %}🎟️ Paid Webinar{% endif %}</h3>
+          <div style="font-size:20px;font-weight:800;font-family:'Sora',sans-serif;margin:6px 0;">{{ webinar.date|date:"M d, Y" }}</div>
+          <div style="font-size:14px;opacity:.85;margin-bottom:14px;">{{ webinar.date|time:"H:i" }} GMT • {{ webinar.duration_minutes }} min</div>
+          <a href="#register" class="btn" style="background:white;color:#0ea5e9;width:100%;justify-content:center;">
+            {% if webinar.status == 'upcoming' %}Register Now →{% else %}View Details{% endif %}
+          </a>
+        </div>
+
+        {% if webinar.max_seats %}
+        <div class="info-card">
+          <div style="font-size:13px;font-weight:600;margin-bottom:6px;">{{ webinar.seats_taken }}/{{ webinar.max_seats }} registered</div>
+          {% widthratio webinar.seats_taken webinar.max_seats 100 as pct %}
+          <div class="seats-bar"><div class="seats-fill" style="width:{{ pct }}%"></div></div>
+          <div style="font-size:12px;color:{% if webinar.seats_left < 10 %}#dc2626{% else %}var(--mid){% endif %};">
+            {% if webinar.is_full %}❌ FULL{% else %}{{ webinar.seats_left }} spots remaining{% endif %}
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="info-card">
+          <div class="info-row"><span class="info-label">Category</span><span class="info-val">{{ webinar.get_category_display }}</span></div>
+          <div class="info-row"><span class="info-label">Status</span><span class="info-val">{{ webinar.get_status_display }}</span></div>
+          <div class="info-row"><span class="info-label">Duration</span><span class="info-val">{{ webinar.duration_minutes }} min</span></div>
+          <div class="info-row"><span class="info-label">Cost</span><span class="info-val" style="color:#16a34a;">{% if webinar.is_free %}✓ Free{% else %}Paid{% endif %}</span></div>
+          {% if webinar.certificate_enabled %}
+          <div class="info-row"><span class="info-label">Certificate</span><span class="info-val" style="color:#7c3aed;">🎓 Yes</span></div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

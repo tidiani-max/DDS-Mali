@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Certificate Not Ready – DDS Mali{% endblock %}
+{% block extra_css %}
+<style>
+.notready-page {
+  min-height: 100vh;
+  background: linear-gradient(140deg, #040c1e 0%, #0a1f4a 50%, #180f58 100%);
+  display: flex; align-items: center; justify-content: center;
+  padding: 100px 20px 60px;
+}
+.notready-card {
+  background: white; border-radius: 24px;
+  padding: 48px 40px; max-width: 480px;
+  width: 100%; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="notready-page">
+  <div class="notready-card">
+    <div style="font-size:64px;margin-bottom:16px;">⏳</div>
+    <h2 style="font-family:'Sora',sans-serif;font-weight:800;font-size:24px;margin-bottom:12px;color:var(--text);">
+      Certificate Not Ready Yet
+    </h2>
+    <p style="color:var(--mid);font-size:15px;line-height:1.7;margin-bottom:24px;">
+      Hi <strong>{{ registration.full_name }}</strong>, your certificate for<br>
+      <strong>"{{ registration.webinar.title }}"</strong><br>
+      will be available once your attendance is confirmed by the organizer.
+    </p>
+    <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:12px;padding:16px;font-size:13px;color:#0369a1;margin-bottom:24px;">
+      📱 Once confirmed, you'll receive the certificate link directly on WhatsApp at
+      <strong>{{ registration.whatsapp_number }}</strong>
+    </div>
+    <a href="{% url 'webinars:list' %}" class="btn btn-primary">← Back to Webinars</a>
+  </div>
+</div>
+{% endblock %}
