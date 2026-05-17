@@ -2,11 +2,15 @@ from django.db import models
 
 class Scholarship(models.Model):
     COUNTRY_CHOICES = [
-        ('indonesia','Indonesia'),
-        ('malaysia','Malaysia'),
-        ('thailand','Thailand'),
-        ('other','Other'),
-    ]
+    ('indonesia', 'Indonesia'),
+    ('malaysia',  'Malaysia'),
+    ('thailand',  'Thailand'),
+    ('taiwan',    'Taiwan'),
+    ('japan',     'Japan'),
+    ('singapore', 'Singapore'),
+    ('china',     'China'),
+    ('other',     'Other'),
+]
     LEVEL_CHOICES = [
         ('bachelor','Bachelor'),
         ('master','Master'),
@@ -40,6 +44,9 @@ class Scholarship(models.Model):
     def requirements_list(self):
         return [r.strip() for r in self.requirements.splitlines() if r.strip()]
 
+    def is_open(self):
+        from django.utils import timezone
+        return self.deadline >= timezone.now().date()
 
 class ScholarshipApplication(models.Model):
     STATUS_CHOICES = [

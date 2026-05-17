@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+Sitemap: https://diawarasofwarecompany.pythonanywhere.com/sitemap.xml

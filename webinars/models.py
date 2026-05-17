@@ -45,6 +45,11 @@ class Webinar(models.Model):
     def is_full(self):
         return self.seats_taken() >= self.max_seats
 
+    def is_past(self):
+        from django.utils import timezone
+        end_time = self.date + timezone.timedelta(minutes=self.duration_minutes)
+        return timezone.now() > end_time
+
 
 class WebinarRegistration(models.Model):
     webinar          = models.ForeignKey(Webinar, on_delete=models.CASCADE, related_name='registrations')

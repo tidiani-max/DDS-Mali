@@ -9,7 +9,21 @@ from .utils.whatsapp import send_webinar_confirmation
 
 
 def webinar_list(request):
-    upcoming = Webinar.objects.filter(status='upcoming').order_by('date')
+    now = timezone.now()
+    all_webinars = Webinar.objects.all()
+
+    # Auto-update status based on date+duration
+    for w in all_webinars:
+        from datetime import timedelta
+        end_time = w.date + timedelta(minutes=w.duration_minutes)
+        if timezone.now() > end_time and w.status != 'past':
+            w.status = 'past'
+            w.save(update_fields=['status'])
+        elif w.date > timezone.now() and w.status == 'past':
+            w.status = 'upcoming'
+            w.save(update_fields=['status'])
+
+    upcoming = Webinar.objects.exclude(status='past').order_by('date')
     past     = Webinar.objects.filter(status='past').order_by('-date')
     return render(request, 'webinars/list.html', {'upcoming': upcoming, 'past': past})
 

@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     'scholarships',
     'webinars',
     'contact',
+    'django.contrib.sitemaps',
 ]
 
 MIDDLEWARE = [
@@ -90,10 +91,11 @@ WHATSAPP_API_TOKEN = ''        # e.g. 'abc123xyz'
 WHATSAPP_API_URL   = 'https://api.fonnte.com/send'
 # Sender number registered on Fonnte
 WHATSAPP_SENDER    = ''        # e.g. '+22376543210'
+ANTHROPIC_API_KEY = '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'
 
 
 
 
 # ─── Site ─────────────────────────────────────────────────
 SITE_NAME = 'Diawara Digital & Software'
-SITE_URL  = 'http://127.0.0.1:8000'   # Change to your production URL
+SITE_URL  = 'https://diawarasofwarecompany.pythonanywhere.com'   # Change to your production URL

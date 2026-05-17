@@ -6,21 +6,30 @@ from webinars.utils.whatsapp import send_scholarship_confirmation
 
 
 def scholarship_list(request):
-    country  = request.GET.get('country', '')
-    level    = request.GET.get('level', '')
+    from django.utils import timezone
+    country = request.GET.get('country', '')
+    level   = request.GET.get('level', '')
+    today   = timezone.now().date()
+
     qs = Scholarship.objects.filter(is_active=True)
     if country:
         qs = qs.filter(country=country)
     if level:
         qs = qs.filter(level=level)
-    featured = Scholarship.objects.filter(is_active=True, is_featured=True)
-    return render(request, 'scholarships/list.html', {
-        'scholarships': qs, 'featured': featured,
-        'country': country, 'level': level,
-        'country_choices': Scholarship.COUNTRY_CHOICES,
-        'level_choices': Scholarship.LEVEL_CHOICES,
-    })
 
+    open_scholarships   = qs.filter(deadline__gte=today).order_by('deadline')
+    closed_scholarships = qs.filter(deadline__lt=today).order_by('-deadline')
+    featured = Scholarship.objects.filter(is_active=True, is_featured=True, deadline__gte=today)
+
+    return render(request, 'scholarships/list.html', {
+        'open_scholarships':   open_scholarships,
+        'closed_scholarships': closed_scholarships,
+        'featured':   featured,
+        'country':    country,
+        'level':      level,
+        'country_choices': Scholarship.COUNTRY_CHOICES,
+        'level_choices':   Scholarship.LEVEL_CHOICES,
+    })
 
 def scholarship_detail(request, pk):
     scholarship = get_object_or_404(Scholarship, pk=pk, is_active=True)

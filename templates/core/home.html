@@ -1,0 +1,433 @@
+{% extends 'base.html' %}
+{% block title %}Diawara Digital & Software – Empowering Africa & Southeast Asia{% endblock %}
+{% block extra_css %}
+<style>
+#hero{min-height:100vh;background:linear-gradient(140deg,#040c1e 0%,#0a1f4a 45%,#0c2768 70%,#180f58 100%);display:flex;align-items:center;padding:100px 60px 60px;position:relative;overflow:hidden;}
+#hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 55% at 75% 50%,rgba(56,189,248,.07) 0%,transparent 65%);}
+.hero-inner{max-width:1280px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(30,107,255,.14);border:1px solid rgba(56,189,248,.25);padding:8px 16px;border-radius:100px;color:#38bdf8;font-size:13px;font-weight:500;margin-bottom:28px;}
+.hero-title{font-family:'Sora',sans-serif;font-size:clamp(38px,5vw,66px);font-weight:800;line-height:1.05;color:white;margin-bottom:22px;}
+.hero-title .cyan{color:#38bdf8;}
+.hero-desc{color:rgba(255,255,255,.62);font-size:16px;line-height:1.72;margin-bottom:38px;max-width:470px;}
+.hero-btns{display:flex;gap:14px;margin-bottom:52px;flex-wrap:wrap;}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap;}
+.stat-item{display:flex;align-items:center;gap:12px;}
+.stat-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.stat-num{font-family:'Sora',sans-serif;font-weight:700;font-size:20px;color:white;}
+.stat-label{font-size:12px;color:rgba(255,255,255,.48);}
+.hero-img-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:20px;backdrop-filter:blur(8px);}
+.hero-logo-display{background:#f0ede6;border-radius:16px;padding:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;}
+.inno-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:60px;}
+.inno-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:6px;}
+.feat-list{list-style:none;margin-bottom:18px;}
+.feat-list li{color:var(--mid);font-size:13px;padding:3px 0;display:flex;align-items:flex-start;gap:8px;}
+.feat-list li::before{content:'•';color:var(--blue);font-weight:700;}
+.tech-row{border-top:1px solid #f1f5f9;padding-top:12px;}
+.tech-lbl{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;}
+.tech-val{font-size:13px;color:var(--mid);}
+
+/* SOLUTION GRID — <a> IS the card */
+.sol-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:60px;}
+a.sol-card{
+  display:block;
+  background:#f8fafc;
+  border-radius:20px;
+  padding:28px;
+  position:relative;
+  transition:transform .3s,box-shadow .3s;
+  text-decoration:none;
+  color:inherit;
+  cursor:pointer;
+}
+a.sol-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.08);}
+/* plain div sol-card (no link) */
+div.sol-card{
+  background:#f8fafc;
+  border-radius:20px;
+  padding:28px;
+  position:relative;
+  transition:transform .3s,box-shadow .3s;
+}
+div.sol-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.08);}
+.sol-check{position:absolute;top:18px;right:18px;width:28px;height:28px;border-radius:50%;border:2px solid;display:flex;align-items:center;justify-content:center;font-size:12px;}
+
+/* INNO GRID — same treatment */
+a.inno-card{
+  display:block;
+  background:white;
+  border-radius:20px;
+  padding:30px;
+  box-shadow:0 2px 16px rgba(0,0,0,.06);
+  transition:transform .3s,box-shadow .3s;
+  text-decoration:none;
+  color:inherit;
+  cursor:pointer;
+}
+a.inno-card:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(0,0,0,.12);}
+
+.impact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:60px;align-items:start;}
+.cal-card{background:white;border-radius:20px;padding:28px;box-shadow:0 2px 16px rgba(0,0,0,.06);}
+.cal-title{display:flex;align-items:center;gap:10px;font-family:'Sora',sans-serif;font-weight:700;font-size:16px;margin-bottom:20px;}
+.event-item{background:#f8fafc;border-radius:12px;padding:16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+.event-title{font-weight:600;font-size:14px;margin-bottom:3px;}
+.btn-join{width:100%;padding:13px;background:var(--blue);color:white;border:none;border-radius:11px;font-weight:600;font-size:14px;cursor:pointer;margin-top:8px;display:block;text-align:center;}
+.offer-card{background:#0a1628;border-radius:20px;padding:28px;color:white;}
+.offer-title{font-family:'Sora',sans-serif;font-weight:700;font-size:16px;margin-bottom:20px;}
+.offer-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}
+.oi-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.oi-title{font-weight:600;font-size:14px;margin-bottom:2px;}
+.oi-desc{font-size:12px;color:rgba(255,255,255,.55);line-height:1.5;}
+.photos-duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.photos-duo img{width:100%;height:165px;object-fit:cover;border-radius:14px;}
+.testi-card{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:14px;padding:18px;display:flex;gap:12px;}
+.sch-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-top:60px;}
+.sch-feat{background:white;border-radius:14px;padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.sfi{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.sf-title{font-weight:600;font-size:14px;margin-bottom:2px;}
+.sf-desc{font-size:13px;color:var(--mid);}
+.sch-img-box{border-radius:20px;overflow:hidden;height:380px;position:relative;}
+.sch-img-box img{width:100%;height:100%;object-fit:cover;}
+.sch-date{position:absolute;bottom:20px;left:20px;background:#22c55e;color:white;border-radius:8px;padding:6px 12px;font-size:13px;font-weight:700;}
+.sch-count{position:absolute;bottom:20px;right:20px;background:linear-gradient(135deg,#ec4899,#8b5cf6);color:white;border-radius:14px;padding:14px 18px;text-align:center;}
+.sch-count .num{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;}
+.sch-count .lbl{font-size:11px;opacity:.85;}
+#ecosystem{background:#0a1628;color:white;}
+.eco-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:44px;margin-top:60px;}
+.eco-main{border-radius:16px;overflow:hidden;position:relative;height:238px;margin-bottom:14px;}
+.eco-main img{width:100%;height:100%;object-fit:cover;}
+.eco-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg,rgba(0,0,0,.75),transparent);padding:18px;}
+.eco-ot{font-weight:700;font-size:15px;}
+.eco-os{font-size:12px;color:rgba(255,255,255,.6);}
+.eco-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.eco-small{border-radius:14px;height:155px;overflow:hidden;position:relative;}
+.eco-small img{width:100%;height:100%;object-fit:cover;}
+.eco-small-label{position:absolute;bottom:10px;left:12px;color:white;font-weight:600;font-size:13px;text-shadow:0 1px 4px rgba(0,0,0,.8);}
+.eco-stat{border-radius:14px;height:155px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;}
+.eco-stat .esn{font-family:'Sora',sans-serif;font-size:34px;font-weight:800;}
+.eco-stat .esl{font-size:13px;color:rgba(255,255,255,.75);}
+.story{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:18px;margin-bottom:12px;}
+.story-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.s-avatar{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.s-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;}
+.st-student{background:rgba(56,189,248,.2);color:#38bdf8;}
+.st-client{background:rgba(34,197,94,.15);color:#4ade80;}
+.s-quote{font-size:13px;color:rgba(255,255,255,.78);font-style:italic;line-height:1.6;margin-bottom:7px;}
+.s-name{font-weight:600;font-size:13px;}
+.s-role{font-size:12px;color:rgba(255,255,255,.48);}
+.eco-nums{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:44px;}
+.eco-num-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:22px;text-align:center;}
+.enc-num{font-family:'Sora',sans-serif;font-size:28px;font-weight:800;margin-bottom:4px;}
+.enc-label{font-size:12px;color:rgba(255,255,255,.48);}
+#cta{background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 50%,#ec4899 100%);text-align:center;color:white;padding:96px 60px;}
+#cta h2{font-family:'Sora',sans-serif;font-size:clamp(26px,4vw,50px);font-weight:800;margin-bottom:16px;line-height:1.1;}
+.cta-sub{font-size:16px;color:rgba(255,255,255,.78);margin-bottom:48px;max-width:560px;margin-left:auto;margin-right:auto;}
+.cta-cards{display:flex;justify-content:center;gap:18px;margin-bottom:40px;flex-wrap:wrap;}
+.cta-card{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:24px 28px;text-align:center;min-width:185px;}
+.cta-card-icon{font-size:24px;margin-bottom:9px;}
+.cta-card-label{font-weight:700;font-size:14px;margin-bottom:4px;}
+.cta-card-val{font-size:13px;color:rgba(255,255,255,.68);}
+.cta-btn{background:white;color:#7c3aed;padding:14px 32px;border-radius:12px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,.2);transition:transform .2s;}
+.cta-btn:hover{transform:translateY(-2px);}
+@media(max-width:900px){
+  #hero{padding:90px 20px 56px;}
+  .hero-inner,.inno-grid,.sol-grid,.impact-grid,.sch-grid,.eco-grid,.eco-nums{grid-template-columns:1fr;}
+  .eco-nums{grid-template-columns:1fr 1fr;}
+  #cta{padding:64px 20px;}
+  .cta-cards{flex-direction:column;align-items:center;}
+}
+</style>
+{% endblock %}
+{% block content %}
+<section id="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"> Empowering Africa </div>
+      <h1 class="hero-title">Diawara Digital<br><span class="cyan">& Software</span></h1>
+      <p class="hero-desc">Innovative AI-powered solutions transforming businesses across West Africa and beyond. We build the future, one line of code at a time.</p>
+      <div class="hero-btns">
+        <a href="{% url 'scholarships:list' %}" class="btn btn-primary">Explore Scholarships →</a>
+        <a href="{% url 'contact:contact' %}" class="btn btn-secondary">Contact Us</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="stat-icon" style="background:rgba(30,107,255,.2)">⟨⟩</div><div><div class="stat-num">8+</div><div class="stat-label">Projects Delivered</div></div></div>
+        <div class="stat-item"><div class="stat-icon" style="background:rgba(56,189,248,.15)">🌐</div><div><div class="stat-num">2</div><div class="stat-label">Continents</div></div></div>
+        <div class="stat-item"><div class="stat-icon" style="background:rgba(139,92,246,.2)">🎓</div><div><div class="stat-num">100+</div><div class="stat-label">Students Helped</div></div></div>
+      </div>
+    </div>
+    <div class="hero-img-card">
+      <div class="hero-logo-display">
+        <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <text x="8" y="175" font-family="Georgia,serif" font-size="172" font-weight="900" fill="#0d2251">D</text>
+          <circle cx="18" cy="42" r="5" fill="#0d2251"/><line x1="23" y1="42" x2="42" y2="42" stroke="#0d2251" stroke-width="2"/>
+          <circle cx="18" cy="68" r="5" fill="#0d2251"/><line x1="23" y1="68" x2="38" y2="68" stroke="#0d2251" stroke-width="2"/>
+          <circle cx="18" cy="94" r="5" fill="#0d2251"/><line x1="23" y1="94" x2="36" y2="94" stroke="#0d2251" stroke-width="2"/>
+          <circle cx="130" cy="82" r="42" fill="none" stroke="#c9a227" stroke-width="3"/>
+          <line x1="88" y1="82" x2="172" y2="82" stroke="#c9a227" stroke-width="2"/>
+          <line x1="130" y1="40" x2="130" y2="124" stroke="#c9a227" stroke-width="2"/>
+          <ellipse cx="130" cy="82" rx="20" ry="42" fill="none" stroke="#c9a227" stroke-width="2"/>
+          <rect x="118" y="90" width="8" height="22" fill="#c9a227" rx="1"/>
+          <rect x="129" y="78" width="8" height="34" fill="#c9a227" rx="1"/>
+          <rect x="140" y="70" width="8" height="42" fill="#c9a227" rx="1"/>
+        </svg>
+        <div style="text-align:center;margin-top:8px;">
+          <strong style="display:block;font-family:'Sora',sans-serif;font-size:20px;font-weight:900;color:#0d2251;letter-spacing:2px;">DIAWARA</strong>
+          <span style="font-family:'Sora',sans-serif;font-size:11px;font-weight:700;color:#0d2251;letter-spacing:3px;">DIGITAL & SOFTWARE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INNOVATIONS -->
+<section class="section" style="background:#f8fafc;">
+  <div class="section-inner">
+    <div class="tc">
+      <div class="sec-badge" style="background:rgba(139,92,246,.1);color:#8b5cf6;border:1px solid rgba(139,92,246,.2)">✦ Solutions IA Propriétaires</div>
+      <h2 class="sec-title"><strong>Nos</strong> <span style="color:#8b5cf6">Innovations</span></h2>
+      <p class="sec-sub">Solutions conçues pour répondre aux défis spécifiques de l'Afrique de l'Ouest</p>
+    </div>
+    <div class="inno-grid">
+      {% for p in innovations %}
+      <div class="card">
+        <div class="card-icon" style="background:{{ p.icon_color }}">{{ p.icon_emoji }}</div>
+        <div class="inno-hdr"><span style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;">{{ p.name }}</span>{% if p.status %}<span class="badge b-{{ p.status }}">{% if p.status == 'dev' %}⏱ En développement{% elif p.status == 'live' %}✓ En ligne{% else %}Mission accomplie{% endif %}</span>{% endif %}</div>
+        <div style="color:var(--mid);font-size:13px;margin-bottom:12px;">{{ p.sector }}</div>
+        <p style="color:var(--mid);font-size:14px;line-height:1.6;margin-bottom:14px;">{{ p.description }}</p>
+        <ul class="feat-list">{% for f in p.features_list %}<li>{{ f }}</li>{% endfor %}</ul>
+        {% if p.technologies %}<div class="tech-row"><div class="tech-lbl">Technologies</div><div class="tech-val">{{ p.technologies }}</div></div>{% endif %}
+      </div>
+      {% empty %}
+
+      <!-- SuguAI - In Development (no link) -->
+      <div class="card">
+        <div class="card-icon" style="background:#22c55e">🤖</div>
+        <div class="inno-hdr">
+          <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;">SuguAI</span>
+          <span class="badge b-dev">⏱ En développement</span>
+        </div>
+        <div style="color:var(--mid);font-size:13px;margin-bottom:12px;">Commerce Informel & WhatsApp</div>
+        <p style="color:var(--mid);font-size:14px;line-height:1.6;margin-bottom:14px;">Assistant commercial intelligent transformant WhatsApp en plateforme de vente automatisée</p>
+        <ul class="feat-list">
+          <li>Pipeline Voix-à-Voix en Bambara & Français</li>
+          <li>Gestion de catalogue automatisée</li>
+          <li>Inclusion numérique totale</li>
+        </ul>
+        <div class="tech-row">
+          <div class="tech-lbl">Technologies</div>
+          <div class="tech-val">FastAPI, Claude 3.5, Faster-Whisper, Meta MMS</div>
+        </div>
+      </div>
+
+      <!-- BTP Manager - Live (clickable) -->
+      <a href="https://fuelfindermali-production.up.railway.app" target="_blank" class="inno-card">
+        <div class="card-icon" style="background:#3b82f6">🏗️</div>
+        <div class="inno-hdr">
+          <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;">BTP Manager</span>
+          <span class="badge b-live">✓ En ligne</span>
+        </div>
+        <div style="color:var(--mid);font-size:13px;margin-bottom:12px;">Construction & Travaux Publics</div>
+        <p style="color:var(--mid);font-size:14px;line-height:1.6;margin-bottom:14px;">Système nerveux numérique pour la gestion contractuelle intelligente</p>
+        <ul class="feat-list">
+          <li>Extraction IA de clauses légales</li>
+          <li>Alertes automatiques pénalités/délais</li>
+          <li>Rapports instantanés</li>
+        </ul>
+        <div class="tech-row">
+          <div class="tech-lbl">Technologies</div>
+          <div class="tech-val">Django, Claude 3.5 Sonnet, Chunking IA</div>
+        </div>
+      </a>
+
+      <!-- FuelFinder Mali - Completed (clickable) -->
+      <a href="https://fuelfindermali-production.up.railway.app" target="_blank" class="inno-card">
+        <div class="card-icon" style="background:#f97316">📍</div>
+        <div class="inno-hdr">
+          <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;">FuelFinder Mali</span>
+          <span class="badge b-done">Mission accomplie</span>
+        </div>
+        <div style="color:var(--mid);font-size:13px;margin-bottom:12px;">Urgence Civique</div>
+        <p style="color:var(--mid);font-size:14px;line-height:1.6;margin-bottom:14px;">Plateforme de géolocalisation en temps réel durant la crise du carburant 2024</p>
+        <ul class="feat-list">
+          <li>3,500+ clics en 28 jours</li>
+          <li>Lancé en 72 heures</li>
+          <li>Impact social majeur</li>
+        </ul>
+        <div class="tech-row">
+          <div class="tech-lbl">Technologies</div>
+          <div class="tech-val">React, Maps API, Real-time Database</div>
+        </div>
+      </a>
+
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTIONS SUR MESURE -->
+<section class="section" style="background:white;">
+  <div class="section-inner">
+    <div class="tc">
+      <div class="sec-badge" style="background:rgba(34,197,94,.1);color:#16a34a;border:1px solid rgba(34,197,94,.25)">✓ Projets Livrés</div>
+      <h2 class="sec-title">Solutions <span style="color:#16a34a">Sur Mesure</span></h2>
+      <p class="sec-sub">Accompagnement de la transformation digitale de nos partenaires</p>
+    </div>
+    <div class="sol-grid">
+      {% for p in solutions %}
+      <div class="sol-card">
+        <div class="sol-check" style="color:{{ p.icon_color }};border-color:{{ p.icon_color }}">✓</div>
+        <div class="card-icon" style="background:{{ p.icon_color }};margin-bottom:14px;">{{ p.icon_emoji }}</div>
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;margin-bottom:5px;">{{ p.name }}</div>
+        <div style="font-size:13px;font-weight:600;color:{{ p.icon_color }};margin-bottom:10px;">{{ p.sector }}</div>
+        <p style="color:var(--mid);font-size:14px;line-height:1.6;">{{ p.description }}</p>
+      </div>
+      {% empty %}
+
+      <!-- Chapchap Mali -->
+      <a href="https://cheicktidiani.pythonanywhere.com/" target="_blank" class="sol-card">
+        <div class="sol-check" style="color:#3b82f6;border-color:#3b82f6">✓</div>
+        <div class="card-icon" style="background:#3b82f6;margin-bottom:14px;">🛍️</div>
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;margin-bottom:5px;">Chapchap Mali</div>
+        <div style="font-size:13px;font-weight:600;color:#3b82f6;margin-bottom:10px;">E-commerce</div>
+        <p style="color:var(--mid);font-size:14px;line-height:1.6;">Place de marché multi-vendeurs dédiée aux produits locaux maliens</p>
+      </a>
+
+      <!-- Diawara Travel -->
+      <a href="https://diawaratravel.pythonanywhere.com/" target="_blank" class="sol-card">
+        <div class="sol-check" style="color:#0ea5e9;border-color:#0ea5e9">✓</div>
+        <div class="card-icon" style="background:#0ea5e9;margin-bottom:14px;">✈️</div>
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;margin-bottom:5px;">Diawara Travel</div>
+        <div style="font-size:13px;font-weight:600;color:#0ea5e9;margin-bottom:10px;">Voyage & Tourisme</div>
+        <p style="color:var(--mid);font-size:14px;line-height:1.6;">Agence spécialisée dans l'accompagnement des voyageurs africains vers l'Indonésie</p>
+      </a>
+
+      <!-- PACQUETS & SERVICES – LMS -->
+      <a href="https://drashar.pythonanywhere.com/" target="_blank" class="sol-card">
+        <div class="sol-check" style="color:#8b5cf6;border-color:#8b5cf6">✓</div>
+        <div class="card-icon" style="background:#8b5cf6;margin-bottom:14px;">🎓</div>
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;margin-bottom:5px;">PACQUETS & SERVICES – LMS</div>
+        <div style="font-size:13px;font-weight:600;color:#8b5cf6;margin-bottom:10px;">EdTech</div>
+        <p style="color:var(--mid);font-size:14px;line-height:1.6;">Plateforme LMS pour la digitalisation des formations universitaires</p>
+      </a>
+
+      <!-- Chantier360 — update href to the real URL when available -->
+      <a href="https://fuelfindermali-production.up.railway.app" target="_blank" class="sol-card">
+        <div class="sol-check" style="color:#f97316;border-color:#f97316">✓</div>
+        <div class="card-icon" style="background:#f97316;margin-bottom:14px;">⛑️</div>
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;margin-bottom:5px;">Chantier360</div>
+        <div style="font-size:13px;font-weight:600;color:#f97316;margin-bottom:10px;">BTP</div>
+        <p style="color:var(--mid);font-size:14px;line-height:1.6;">Plateforme SaaS d'extraction IA pour la gestion contractuelle BTP</p>
+      </a>
+
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT HUB -->
+<section class="section" style="background:#f8fafc;">
+  <div class="section-inner">
+    <div class="tc">
+      <div class="sec-badge" style="background:rgba(56,189,248,.1);color:#0284c7;border:1px solid rgba(56,189,248,.3)">📹 The Impact Hub</div>
+      <h2 class="sec-title">Connecting Talent to <span style="color:#0ea5e9">Tomorrow</span></h2>
+      <p class="sec-sub">Join our webinars and workshops to connect with industry professionals and accelerate your career</p>
+    </div>
+    <div class="impact-grid">
+      <div class="cal-card">
+        <div class="cal-title">📅 Career Pathways Calendar</div>
+        {% for w in upcoming_webinars %}
+        <div class="event-item"><div><div class="event-title">{{ w.title }}</div><div style="color:var(--mid);font-size:12px;margin-bottom:5px;">{{ w.get_category_display }}</div><div style="font-size:12px;color:var(--mid);margin-bottom:6px;">📅 {{ w.date|date:"M d, Y" }}  {{ w.date|time:"H:i" }} GMT</div><div style="font-size:12px;color:var(--mid);">⭐ {{ w.speaker_name }} – {{ w.speaker_role }}</div></div><span class="badge b-upcoming">Upcoming</span></div>
+        {% empty %}
+        <div class="event-item"><div><div class="event-title">Cracking Your Dream Job Interview</div><div style="color:var(--mid);font-size:12px;margin-bottom:5px;">Career Development</div><div style="font-size:12px;color:var(--mid);margin-bottom:6px;">📅 May 5, 2026  14:00 GMT</div><div style="font-size:12px;color:var(--mid);">⭐ Senior Software Engineer at Google</div></div><span class="badge b-upcoming">Upcoming</span></div>
+        <div class="event-item"><div><div class="event-title">From Student to Tech Leader</div><div style="color:var(--mid);font-size:12px;margin-bottom:5px;">Leadership</div><div style="font-size:12px;color:var(--mid);margin-bottom:6px;">📅 May 12, 2026  15:00 GMT</div><div style="font-size:12px;color:var(--mid);">⭐ CTO at African Tech Startup</div></div><span class="badge b-upcoming">Upcoming</span></div>
+        <div class="event-item"><div><div class="event-title">Breaking into AI & Machine Learning</div><div style="color:var(--mid);font-size:12px;margin-bottom:5px;">Technical Skills</div><div style="font-size:12px;color:var(--mid);margin-bottom:6px;">📅 May 19, 2026  16:00 GMT</div><div style="font-size:12px;color:var(--mid);">⭐ ML Engineer at Meta</div></div><span class="badge b-upcoming">Upcoming</span></div>
+        {% endfor %}
+        <a href="{% url 'webinars:list' %}" class="btn-join">Join Our Next Webinar</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px;">
+        <div class="offer-card">
+          <div class="offer-title">What We Offer</div>
+          <div class="offer-item"><div class="oi-icon" style="background:rgba(30,107,255,.3)">💼</div><div><div class="oi-title">Industry Professional Connections</div><div class="oi-desc">Connect with workers at top companies who share their journey and insights</div></div></div>
+          <div class="offer-item"><div class="oi-icon" style="background:rgba(56,189,248,.2)">👥</div><div><div class="oi-title">Live Q&amp;A Sessions</div><div class="oi-desc">Ask questions and get personalized advice from experienced professionals</div></div></div>
+          <div class="offer-item"><div class="oi-icon" style="background:rgba(139,92,246,.3)">📈</div><div><div class="oi-title">Career Growth Strategies</div><div class="oi-desc">Learn proven strategies to land your dream job and accelerate your career</div></div></div>
+        </div>
+        <div class="photos-duo">
+          <img src="/media/site/cafe_meeting.jpg" alt="Team Meeting"/>
+          <img src="/media/site/meeting_room.jpg" alt="Workshop"/>
+        </div>
+        <div class="testi-card"><div style="font-size:20px">⭐</div><div><div style="font-weight:700;font-size:14px;margin-bottom:6px;">Student Success</div><p style="font-size:13px;color:var(--mid);font-style:italic;margin-bottom:5px;line-height:1.5;">"DDS webinars connected me with a senior engineer at Microsoft. Their advice helped me land my dream job at a top tech company!"</p><div style="font-size:12px;color:var(--mid);">Amadou K., Software Engineer</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHOLARSHIPS -->
+<section class="section" style="background:#f5f3ff;">
+  <div class="section-inner">
+    <div class="sch-grid">
+      <div>
+        <div class="sec-badge" style="background:rgba(139,92,246,.1);color:#7c3aed;border:1px solid rgba(139,92,246,.25)">🎓 Scholarship Bridge</div>
+        <h2 class="sec-title">Your Path to <span style="color:#7c3aed">Global Education</span></h2>
+        <p style="color:var(--mid);font-size:15px;line-height:1.7;margin-bottom:28px;">We help students from West Africa discover and apply for scholarship opportunities to study in Indonesia and Southeast Asia.</p>
+        <div class="sch-feat"><div class="sfi" style="background:#818cf8">ℹ️</div><div><div class="sf-title">Scholarship Information</div><div class="sf-desc">Curated database of available scholarships in Indonesia and Southeast Asia</div></div></div>
+        <div class="sch-feat"><div class="sfi" style="background:#8b5cf6">🌐</div><div><div class="sf-title">Application Guidance</div><div class="sf-desc">Step-by-step support through the scholarship application process</div></div></div>
+        <div class="sch-feat"><div class="sfi" style="background:#ec4899">✈️</div><div><div class="sf-title">Success Stories</div><div class="sf-desc">100+ students successfully sent abroad to pursue their dreams</div></div></div>
+        <br><a href="{% url 'scholarships:list' %}" class="btn btn-purple" style="margin-top:8px;">Browse Scholarships →</a>
+      </div>
+      <div>
+        <div class="sch-img-box">
+          <img src="/media/site/students.png" alt="Students in Indonesia"/>
+          <div class="sch-date"><span>01 Apr</span><span>2026</span></div>
+          <div class="sch-count"><div class="num">100+</div><div class="lbl">Students Sent Abroad</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSYSTEM -->
+<section id="ecosystem" class="section">
+  <div class="section-inner">
+    <div class="tc">
+      <h2 class="sec-title" style="color:white">Our Ecosystem in <span style="color:#38bdf8">Action</span></h2>
+      <p class="sec-sub" style="color:rgba(255,255,255,.55)">Real stories, real impact — empowering the next generation</p>
+    </div>
+    <div class="eco-grid">
+      <div>
+        <div class="eco-main"><img src="/media/site/video_call.jpg" alt="Webinar"/><div class="eco-overlay"><div class="eco-ot">Online Mentorship & Webinars</div><div class="eco-os">Connecting students with industry professionals worldwide</div></div></div>
+        <div class="eco-row">
+          <div class="eco-small"><img src="/media/site/robot.jpg" alt="Tech"/><div class="eco-small-label">Tech Innovation</div></div>
+          <div class="eco-stat"><div style="font-size:22px">🎯</div><div class="esn">50+</div><div class="esl">Webinars Hosted</div></div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin-bottom:20px;">Success Stories</h3>
+        {% for t in testimonials %}
+        <div class="story"><div class="story-hdr"><div class="s-avatar">{{ t.avatar }}</div><span class="s-tag st-{{ t.role }}">{{ t.get_role_display }}</span></div><p class="s-quote">"{{ t.quote }}"</p><div class="s-name">{{ t.name }}</div><div class="s-role">{{ t.title }}</div></div>
+        {% empty %}
+        <div class="story"><div class="story-hdr"><div class="s-avatar">👨🏿</div><span class="s-tag st-student">Student</span></div><p class="s-quote">"I landed my dream AI job at a top tech company!"</p><div class="s-name">Amadou D.</div><div class="s-role">Machine Learning Engineer</div></div>
+        <div class="story"><div class="story-hdr"><div class="s-avatar">🏢</div><span class="s-tag st-client">Client</span></div><p class="s-quote">"DDS-Mali secured our enterprise data and transformed our operations."</p><div class="s-name">Tech Solutions Mali</div><div class="s-role">CEO</div></div>
+        <div class="story"><div class="story-hdr"><div class="s-avatar">👩🏾</div><span class="s-tag st-student">Student</span></div><p class="s-quote">"The webinar mentorship helped me get accepted to a university in Indonesia!"</p><div class="s-name">Fatoumata K.</div><div class="s-role">Computer Science Student</div></div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="eco-nums">
+      <div class="eco-num-card"><div style="font-size:20px;margin-bottom:8px">⟨⟩</div><div class="enc-num" style="color:#38bdf8">8+</div><div class="enc-label">Projects Delivered</div></div>
+      <div class="eco-num-card"><div style="font-size:20px;margin-bottom:8px">🚀</div><div class="enc-num" style="color:#4ade80">3</div><div class="enc-label">AI Solutions</div></div>
+      <div class="eco-num-card"><div style="font-size:20px;margin-bottom:8px">👥</div><div class="enc-num" style="color:#fbbf24">100+</div><div class="enc-label">Students Helped</div></div>
+      <div class="eco-num-card"><div style="font-size:20px;margin-bottom:8px">🎯</div><div class="enc-num" style="color:#a78bfa">50+</div><div class="enc-label">Webinars</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <h2>Prêt à Transformer Votre Vision en Réalité?</h2>
+  <p class="cta-sub">Que vous ayez besoin d'une solution IA sur mesure, d'un projet web, ou d'accompagnement pour vos études à l'étranger, nous sommes là pour vous.</p>
+  <div class="cta-cards">
+    <div class="cta-card"><div class="cta-card-icon">✉️</div><div class="cta-card-label">Email</div><div class="cta-card-val">contact@dds-mali.com</div></div>
+    <div class="cta-card"><div class="cta-card-icon">📍</div><div class="cta-card-label">Localisation</div><div class="cta-card-val">Mali • Southeast Asia</div></div>
+    <div class="cta-card"><div class="cta-card-icon">🌐</div><div class="cta-card-label">Présence</div><div class="cta-card-val">Afrique de l'Ouest • Asie du Sud-Est</div></div>
+  </div>
+  <a href="{% url 'contact:contact' %}" class="cta-btn">Démarrer un Projet ✈️</a>
+</section>
+{% endblock %}

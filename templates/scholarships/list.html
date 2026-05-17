@@ -9,6 +9,7 @@
 .sch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;}
 .sch-card{background:white;border-radius:20px;padding:28px;box-shadow:0 2px 14px rgba(0,0,0,.06);transition:transform .3s,box-shadow .3s;border-top:4px solid #8b5cf6;}
 .sch-card:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(0,0,0,.12);}
+.sch-card.closed{border-top-color:#cbd5e1;opacity:.75;}
 .sch-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;}
 .sch-title{font-family:'Sora',sans-serif;font-weight:700;font-size:18px;line-height:1.3;}
 .sch-uni{color:var(--mid);font-size:13px;margin-bottom:12px;}
@@ -16,6 +17,7 @@
 .sch-meta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
 .sch-tag{font-size:12px;font-weight:600;padding:4px 12px;border-radius:100px;background:#f1f5f9;color:var(--mid);}
 .sch-deadline{font-size:13px;color:#dc2626;font-weight:600;margin-bottom:16px;}
+.sch-deadline.closed{color:#94a3b8;}
 .featured-banner{background:linear-gradient(135deg,#7c3aed,#ec4899);border-radius:20px;padding:36px;color:white;margin-bottom:48px;}
 .featured-banner h3{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;margin-bottom:8px;}
 .featured-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:20px;}
@@ -24,6 +26,12 @@
 .f-card-sub{font-size:13px;opacity:.8;margin-bottom:12px;}
 .empty-state{text-align:center;padding:80px 20px;color:var(--mid);}
 .empty-state div{font-size:56px;margin-bottom:16px;}
+.section-divider{display:flex;align-items:center;gap:16px;margin:48px 0 28px;}
+.section-divider h2{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;white-space:nowrap;}
+.section-divider::after{content:'';flex:1;height:2px;background:#e2e8f0;}
+.status-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 12px;border-radius:100px;}
+.badge-open{background:#dcfce7;color:#16a34a;}
+.badge-closed{background:#f1f5f9;color:#64748b;}
 </style>
 {% endblock %}
 {% block content %}
@@ -31,7 +39,7 @@
   <div class="page-hero-inner">
     <div class="sec-badge" style="background:rgba(139,92,246,.2);color:#c4b5fd;border:1px solid rgba(139,92,246,.3)">🎓 Scholarship Bridge</div>
     <h1>Scholarships & <span style="color:#c4b5fd">Opportunities</span></h1>
-    <p>Discover funded opportunities to study in Indonesia and Southeast Asia. We guide you every step of the way.</p>
+    <p>Discover fully funded opportunities to study in Indonesia, Malaysia, Thailand, Taiwan, Japan, Singapore and China.</p>
   </div>
 </div>
 
@@ -72,9 +80,14 @@
       <a href="{% url 'scholarships:list' %}" style="font-size:14px;color:var(--mid);">Clear</a>
     </form>
 
-    {% if scholarships %}
+    <!-- OPEN SCHOLARSHIPS -->
+    <div class="section-divider">
+      <h2>🟢 Currently Open <span class="status-badge badge-open" style="margin-left:10px;">{{ open_scholarships.count }} available</span></h2>
+    </div>
+
+    {% if open_scholarships %}
     <div class="sch-grid">
-      {% for s in scholarships %}
+      {% for s in open_scholarships %}
       <div class="sch-card">
         {% if s.image %}<img src="{{ s.image.url }}" style="width:100%;height:140px;object-fit:cover;border-radius:14px;margin-bottom:16px;" alt="{{ s.title }}"/>{% endif %}
         <div class="sch-card-top">
@@ -85,7 +98,7 @@
         <p class="sch-desc">{{ s.description|truncatewords:30 }}</p>
         <div class="sch-meta">
           <span class="sch-tag">🌏 {{ s.get_country_display }}</span>
-          {% if s.is_free %}<span class="sch-tag" style="background:#dcfce7;color:#16a34a;">✓ Free</span>{% endif %}
+          <span class="status-badge badge-open">✓ Open</span>
         </div>
         <div class="sch-deadline">⏰ Deadline: {{ s.deadline|date:"M d, Y" }}</div>
         <a href="{% url 'scholarships:detail' s.pk %}" class="btn btn-purple" style="width:100%;justify-content:center;">Apply Now →</a>
@@ -94,12 +107,40 @@
     </div>
     {% else %}
     <div class="empty-state">
-      <div>🎓</div>
-      <h3 style="font-family:'Sora',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;">No scholarships found</h3>
-      <p>Try adjusting your filters or check back soon for new opportunities.</p>
-      <br><a href="{% url 'contact:contact' %}" class="btn btn-purple" style="margin-top:16px;">Get Notified</a>
+      <div>🔍</div>
+      <h3 style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px;">No open scholarships match your filters</h3>
+      <p>Try adjusting your filters or check back soon.</p>
+      <a href="{% url 'contact:contact' %}" class="btn btn-purple" style="margin-top:16px;">Get Notified</a>
     </div>
     {% endif %}
+
+    <!-- CLOSED SCHOLARSHIPS -->
+    {% if closed_scholarships %}
+    <div class="section-divider" style="margin-top:64px;">
+      <h2>🔴 Closed Scholarships <span class="status-badge badge-closed" style="margin-left:10px;">{{ closed_scholarships.count }} past</span></h2>
+    </div>
+    <p style="color:var(--mid);font-size:14px;margin-bottom:24px;">These scholarships are currently closed. They may reopen next cycle — save the page and check back.</p>
+    <div class="sch-grid">
+      {% for s in closed_scholarships %}
+      <div class="sch-card closed">
+        {% if s.image %}<img src="{{ s.image.url }}" style="width:100%;height:140px;object-fit:cover;border-radius:14px;margin-bottom:16px;filter:grayscale(.4);" alt="{{ s.title }}"/>{% endif %}
+        <div class="sch-card-top">
+          <div class="sch-title">{{ s.title }}</div>
+          <span class="sch-tag">{{ s.get_level_display }}</span>
+        </div>
+        <div class="sch-uni">🏛️ {{ s.university }}</div>
+        <p class="sch-desc">{{ s.description|truncatewords:30 }}</p>
+        <div class="sch-meta">
+          <span class="sch-tag">🌏 {{ s.get_country_display }}</span>
+          <span class="status-badge badge-closed">✗ Closed</span>
+        </div>
+        <div class="sch-deadline closed">📅 Deadline was: {{ s.deadline|date:"M d, Y" }}</div>
+        <a href="{% url 'scholarships:detail' s.pk %}" class="btn" style="width:100%;justify-content:center;background:#e2e8f0;color:#475569;">View Details →</a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
   </div>
 </section>
 {% endblock %}
