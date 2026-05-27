@@ -4,7 +4,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-dds-mali-change-this-in-production-2026'
-DEBUG = False
+DEBUG =  True
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
