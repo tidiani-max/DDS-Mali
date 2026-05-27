@@ -85,27 +85,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ─── Email ───────────────────────────────────────────────
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# For production SMTP:
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'your@gmail.com'
-# EMAIL_HOST_PASSWORD = 'your-app-password'
 CONTACT_EMAIL = 'contact@dds-mali.com'
 
-# ─── WhatsApp (Fonnte API – free tier available) ─────────
-# Sign up at https://fonnte.com or https://wa.me/api
-# Set your token here after registration
-WHATSAPP_API_TOKEN = ''        # e.g. 'abc123xyz'
+# ─── WhatsApp (Fonnte API) ───────────────────────────────
+WHATSAPP_API_TOKEN = os.environ.get('WHATSAPP_API_TOKEN', '')
 WHATSAPP_API_URL   = 'https://api.fonnte.com/send'
-# Sender number registered on Fonnte
-WHATSAPP_SENDER    = ''        # e.g. '+22376543210'
-ANTHROPIC_API_KEY = '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'
+WHATSAPP_SENDER    = os.environ.get('WHATSAPP_SENDER', '')
 
+# ─── AI Integrations ─────────────────────────────────────
+# Read directly from environment configurations instead of hardcoding
+ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
 
-
-
-# ─── Site ─────────────────────────────────────────────────
+# ─── Production & Reverse Proxy Settings ──────────────────
 SITE_NAME = 'Diawara Digital & Software'
-SITE_URL  = 'https://diawarasofwarecompany.pythonanywhere.com'   # Change to your production URL
+SITE_URL  = 'https://dds-mali.com'
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://dds-mali.com',
+    'https://www.dds-mali.com',
+]
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
