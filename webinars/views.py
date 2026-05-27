@@ -89,7 +89,7 @@ def checkin(request, pk):
         'registration': registration,
         'error': error,
     }
-    return render(request, 'webinars/checkin.html', ctx)
+    return render(request, 'webinars/Checkin.html', ctx)
 
 
 def certificate_view(request, cert_code):
