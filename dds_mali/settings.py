@@ -23,7 +23,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serves compiled /static/
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -52,7 +52,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'dds_mali.wsgi.application'
 
-
 if os.path.exists('/app'):
     DATABASES = {
         'default': {
@@ -73,19 +72,26 @@ TIME_ZONE = 'Africa/Bamako'
 USE_I18N = True
 USE_TZ = True
 
-# ─── Static & Media File Compilation via WhiteNoise ───────
+# ─── Static Files (WhiteNoise handles this) ───────────────────
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Added your media folder to STATICFILES_DIRS so WhiteNoise bundles it on git push
+# WhiteNoise will look inside your core static directories
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    BASE_DIR / 'media',
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Standard compressed storage (doesn't force strict manifest matching for dynamic media)
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 
-# Removed WHITENOISE_IGNORE_PATHS so WhiteNoise can safely intercept and serve these assets
+# ─── Media Files (Handled via Persistent Volume Mount) ────────
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -112,4 +118,3 @@ CSRF_TRUSTED_ORIGINS = [
     'https://www.dds-mali.com',
 ]
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
