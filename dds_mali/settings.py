@@ -4,7 +4,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-dds-mali-change-this-in-production-2026'
-DEBUG =  False
+DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -73,16 +73,21 @@ TIME_ZONE = 'Africa/Bamako'
 USE_I18N = True
 USE_TZ = True
 
+# ─── Static & Media File Compilation via WhiteNoise ───────
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-# settings.py
-# Add this line to prevent WhiteNoise from stealing the request
-WHITENOISE_IGNORE_PATHS = ['/media/']
 
+# Added your media folder to STATICFILES_DIRS so WhiteNoise bundles it on git push
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    BASE_DIR / 'media',
+]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Removed WHITENOISE_IGNORE_PATHS so WhiteNoise can safely intercept and serve these assets
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/app/media'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -96,7 +101,6 @@ WHATSAPP_API_URL   = 'https://api.fonnte.com/send'
 WHATSAPP_SENDER    = os.environ.get('WHATSAPP_SENDER', '')
 
 # ─── AI Integrations ─────────────────────────────────────
-# Read directly from environment configurations instead of hardcoding
 ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
 
 # ─── Production & Reverse Proxy Settings ──────────────────
