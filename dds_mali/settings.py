@@ -77,6 +77,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# settings.py
+# Add this line to prevent WhiteNoise from stealing the request
+WHITENOISE_IGNORE_PATHS = ['/media/']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/app/media'
