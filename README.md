@@ -1,55 +1,137 @@
-# Diawara Digital & Software – Django Website
+# 🌍 DDS-Mali
 
-## 🚀 Quick Start
+> Empowering African businesses and students through digital transformation, artificial intelligence, and global education opportunities.
 
-### 1. Install dependencies
-```bash
-pip install -r requirements.txt
-```
+DDS-Mali is a technology company dedicated to helping businesses across Africa embrace digital innovation. We develop modern web and mobile applications, provide AI consulting and training, and connect students with fully funded international scholarship opportunities.
 
-### 2. Run migrations
-```bash
-python manage.py migrate
-```
-
-### 3. Load initial data (projects, scholarships, webinars, admin user)
-```bash
-python manage.py setup_site
-```
-
-### 4. Run the development server
-```bash
-python manage.py runserver
-```
-
-Open http://127.0.0.1:8000 in your browser.
-
-### 5. Access Admin Panel
-Go to http://127.0.0.1:8000/admin/
-- Username: `admin`
-- Password: `dds2026admin`
+Our mission is to make technology accessible, practical, and impactful for entrepreneurs, professionals, and students.
 
 ---
 
-## 📁 Project Structure
+# 🚀 What We Do
+
+### 💻 Digital Solutions
+
+We design and build modern digital products, including:
+
+- Business websites
+- Web applications
+- Mobile applications
+- Custom software solutions
+- Cloud-based platforms
+
+---
+
+### 🤖 AI Consulting & Training
+
+DDS-Mali helps organizations integrate Artificial Intelligence into their daily operations.
+
+Our services include:
+
+- AI strategy consulting
+- Business automation
+- Prompt engineering workshops
+- AI productivity training
+- Generative AI implementation
+- Employee upskilling
+
+---
+
+### 🎓 Scholarship Hub
+
+One of DDS-Mali's flagship initiatives is helping African students access higher education abroad.
+
+The platform provides:
+
+- 🌍 Fully funded scholarship listings
+- 🤖 AI-powered scholarship tracking
+- 📅 Webinar announcements
+- 🎓 Application guidance
+- 📝 Educational resources
+
+Students can discover opportunities in countries such as:
+
+- 🇯🇵 Japan
+- 🇰🇷 South Korea
+- 🇨🇳 China
+- 🇸🇬 Singapore
+- 🇹🇭 Thailand
+- 🇸🇪 Sweden
+- 🇨🇭 Switzerland
+- 🇨🇦 Canada
+- 🇳🇿 New Zealand
+- and many more.
+
+---
+
+# ✨ Features
+
+- 🌐 Corporate website
+- 📱 Responsive design
+- 🤖 AI education platform
+- 📚 Learning resources
+- 🎓 Scholarship portal
+- 📅 Webinar management
+- 📩 Contact & consultation
+- 📈 Business services showcase
+
+---
+
+# 🛠 Tech Stack
+
+### Frontend
+
+- React / Next.js
+- TypeScript
+- Tailwind CSS
+
+### Backend
+
+- Python
+- Django
+- PostgreSQL
+
+### Infrastructure
+
+- Docker
+- AWS
+- GitHub Actions
+
+---
+
+# 🚀 Getting Started
+
+Clone the repository:
+
+```bash
+git clone https://github.com/tidiani-max/DDS-Mali.git
+
+cd DDS-Mali
 ```
-dds_mali/
-├── core/           → Home page, Projects, Testimonials
-├── scholarships/   → Scholarship listings + Application forms
-├── webinars/       → Webinar listings + Registration forms
-├── contact/        → Contact form
-├── templates/      → All HTML templates
-├── static/         → CSS, JS, images
-├── media/          → Uploaded files + site images
-└── manage.py
-```
 
-## 🌐 Deploy to Production (Railway / Render)
+Install dependencies and follow the setup instructions in the project configuration files.
 
-1. Set `DEBUG=False` in settings.py
-2. Set `SECRET_KEY` to a secure random string
-3. Run `python manage.py collectstatic`
-4. Use gunicorn: `gunicorn dds_mali.wsgi:application`
+---
 
-## ✉️ Contact
-contact@dds-mali.com
+# 🌍 Vision
+
+Our vision is to accelerate Africa's digital transformation by making technology, artificial intelligence, and global educational opportunities accessible to everyone.
+
+We believe every entrepreneur should be able to leverage AI to grow a business, and every talented student should have access to life-changing international scholarships.
+
+---
+
+# 🗺️ Roadmap
+
+- AI-powered scholarship recommendation engine
+- Business AI assistant
+- Online AI learning platform
+- Digital transformation assessment tools
+- Community learning portal
+- Mobile application
+
+---
+
+# 📄 License
+
+MIT License
