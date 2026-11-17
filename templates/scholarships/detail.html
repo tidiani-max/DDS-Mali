@@ -42,14 +42,14 @@
           <p style="color:var(--mid);font-size:15px;line-height:1.7;">{{ scholarship.description }}</p>
 
           {% if scholarship.benefits_list %}
-          <div class="section-heading">🎁 Benefits & Coverage</div>
+          <div class="section-heading"> Benefits & Coverage</div>
           {% for b in scholarship.benefits_list %}
           <div class="benefit-item">{{ b }}</div>
           {% endfor %}
           {% endif %}
 
           {% if scholarship.requirements_list %}
-          <div class="section-heading">📋 Requirements</div>
+          <div class="section-heading"> Requirements</div>
           {% for r in scholarship.requirements_list %}
           <div class="req-item">{{ r }}</div>
           {% endfor %}
@@ -85,7 +85,7 @@
           <a href="#apply" class="btn" style="background:white;color:#7c3aed;width:100%;justify-content:center;">Apply Now →</a>
         </div>
         <div class="info-card">
-          <div class="info-row"><span class="info-label">Country</span><span class="info-val">🌏 {{ scholarship.get_country_display }}</span></div>
+          <div class="info-row"><span class="info-label">Country</span><span class="info-val"> {{ scholarship.get_country_display }}</span></div>
           <div class="info-row"><span class="info-label">Level</span><span class="info-val">{{ scholarship.get_level_display }}</span></div>
           <div class="info-row"><span class="info-label">University</span><span class="info-val">{{ scholarship.university }}</span></div>
           <div class="info-row"><span class="info-label">Cost</span><span class="info-val" style="color:#16a34a;">{% if scholarship.is_free %}✓ Free{% else %}Varies{% endif %}</span></div>

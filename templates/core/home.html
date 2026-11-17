@@ -26,7 +26,7 @@
 .tech-lbl{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;}
 .tech-val{font-size:13px;color:var(--mid);}
 
-/* SOLUTION GRID — <a> IS the card */
+/* SOLUTION GRID  <a> IS the card */
 .sol-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:60px;}
 a.sol-card{
   display:block;
@@ -51,7 +51,7 @@ div.sol-card{
 div.sol-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.08);}
 .sol-check{position:absolute;top:18px;right:18px;width:28px;height:28px;border-radius:50%;border:2px solid;display:flex;align-items:center;justify-content:center;font-size:12px;}
 
-/* INNO GRID — same treatment */
+/* INNO GRID  same treatment */
 a.inno-card{
   display:block;
   background:white;
@@ -80,14 +80,30 @@ a.inno-card:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(0,0,0,.
 .photos-duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .photos-duo img{width:100%;height:165px;object-fit:cover;border-radius:14px;}
 .testi-card{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:14px;padding:18px;display:flex;gap:12px;}
-.sch-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-top:60px;}
+.sch-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:56px;align-items:center;margin-top:60px;}
 .sch-feat{background:white;border-radius:14px;padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
 .sfi{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
 .sf-title{font-weight:600;font-size:14px;margin-bottom:2px;}
 .sf-desc{font-size:13px;color:var(--mid);}
-.sch-img-box{border-radius:20px;overflow:hidden;height:380px;position:relative;}
+.sch-img-box{border-radius:20px;overflow:hidden;height:420px;position:relative;}
 .sch-img-box img{width:100%;height:100%;object-fit:cover;}
-.sch-date{position:absolute;bottom:20px;left:20px;background:#22c55e;color:white;border-radius:8px;padding:6px 12px;font-size:13px;font-weight:700;}
+.sch-date{
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: #22c55e;
+  color: white;
+  border-radius: 14px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  z-index: 20;
+  white-space: nowrap;
+}
 .sch-count{position:absolute;bottom:20px;right:20px;background:linear-gradient(135deg,#ec4899,#8b5cf6);color:white;border-radius:14px;padding:14px 18px;text-align:center;}
 .sch-count .num{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;}
 .sch-count .lbl{font-size:11px;opacity:.85;}
@@ -309,7 +325,7 @@ a.inno-card:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(0,0,0,.
         <p style="color:var(--mid);font-size:14px;line-height:1.6;">Plateforme LMS pour la digitalisation des formations universitaires</p>
       </a>
 
-      <!-- Chantier360 — update href to the real URL when available -->
+      <!-- Chantier360  update href to the real URL when available -->
       <a href="https://fuelfindermali-production.up.railway.app" target="_blank" class="sol-card">
         <div class="sol-check" style="color:#f97316;border-color:#f97316">✓</div>
         <div class="card-icon" style="background:#f97316;margin-bottom:14px;">⛑️</div>
@@ -374,11 +390,17 @@ a.inno-card:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(0,0,0,.
         <br><a href="{% url 'scholarships:list' %}" class="btn btn-purple" style="margin-top:8px;">Browse Scholarships →</a>
       </div>
       <div>
+        <div>
+        <div>
         <div class="sch-img-box">
           <img src="/media/site/students.png" alt="Students in Indonesia"/>
-          <div class="sch-date"><span>01 Apr</span><span>2026</span></div>
+          <div style="position:absolute; bottom:0; left:0; background:#22c55e; color:white; border-top-right-radius:16px; padding:16px 28px; text-align:center; box-shadow:0 6px 20px rgba(0,0,0,0.3); z-index:999; min-width:190px;">
+            <div style="font-family:'Sora',sans-serif;font-size:24px;font-weight:800;white-space:nowrap;">01 Apr 2026</div>
+            <div style="font-size:13px;opacity:.95;margin-top:2px;">Departure Date</div>
+          </div>
           <div class="sch-count"><div class="num">100+</div><div class="lbl">Students Sent Abroad</div></div>
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -389,7 +411,7 @@ a.inno-card:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(0,0,0,.
   <div class="section-inner">
     <div class="tc">
       <h2 class="sec-title" style="color:white">Our Ecosystem in <span style="color:#38bdf8">Action</span></h2>
-      <p class="sec-sub" style="color:rgba(255,255,255,.55)">Real stories, real impact — empowering the next generation</p>
+      <p class="sec-sub" style="color:rgba(255,255,255,.55)">Real stories, real impact  empowering the next generation</p>
     </div>
     <div class="eco-grid">
       <div>
